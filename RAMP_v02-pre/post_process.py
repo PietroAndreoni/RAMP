@@ -67,3 +67,7 @@ for i in range (len(Profile)):
 def export_series(stoch_profiles_series, j):
     series_frame = pd.DataFrame(stoch_profiles_series)
     series_frame.to_csv('results/output_file_%d.csv' % (j))
+
+def export_series_us((stoch_profiles_series, j): #PIETRO: parallel function for exporting in csv the differentiated demand
+    series_frame = pd.DataFrame(stoch_profiles_series)
+    series_frame.to_csv('results/output_file_diff_%d.csv' % (j))

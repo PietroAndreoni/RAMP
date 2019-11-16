@@ -38,7 +38,7 @@ for j in range(2,3):
     Profile_series_plot(Profiles_series) #by default, profiles are plotted as a series
     
     export_series(Profiles_series,j)
-    export_series_us(Profiles_series,j)
+    export_series_us(Profiles_series_us,j) #PIETRO: incomplete
 
     if len(Profiles_list) > 1: #if more than one daily profile is generated, also cloud plots are shown
         Profile_cloud_plot(Profiles_list, Profiles_avg)

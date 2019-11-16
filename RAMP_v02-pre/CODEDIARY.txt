@@ -1,0 +1,12 @@
+general rules:
+- just adding code, no modifing core (maybe inefficient but faster and more readable)
+- comment every line modded with #PIETRO: 
+- create parallel function when possible
+
+INTERVENTIONS FIRST COMMIT:
+
+-- creation of Profile_users list --
+in stochastic_process.py, added a new bidimensional list Profile_users[number of periods][number of users] (TO BE transposed! - or create it right)
+this lead to small changes in inizialize.py (where the empty list in inizialized) and RAMP_run.py, which now receives as output from stochastic_process.py also Profile_users
+
+MISSING a mod to post_process, in particolar the Profile_series object (which simply create an array from the list)
