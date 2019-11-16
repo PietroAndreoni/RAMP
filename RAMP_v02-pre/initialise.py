@@ -33,8 +33,9 @@ def Initialise_model():
     num_profiles = int(input("please indicate the number of profiles to be generated: ")) #asks the user how many profiles (i.e. code runs) he wants
     print('Please wait...') 
     Profile = [] #creates an empty list to store the results of each code run, i.e. each stochastically generated profile
-    
-    return (Profile, num_profiles)
+    Profile_users = []
+
+    return (Profile, num_profiles, Profile_users)
     
 def Initialise_inputs(j):
     Year_behaviour = yearly_pattern()
