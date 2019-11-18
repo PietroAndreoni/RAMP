@@ -25,6 +25,17 @@ def Profile_formatting(stoch_profiles):
     
     return (Profile_avg, Profile_kW, Profile_series)
 
+def Profile_formatting_us(stoch_profiles_us):
+    
+    row = len(stoch_profiles_us)
+    col = len(stoch_profiles_us[0])
+    Profile_series_us = np.empty([row+1,col+1])
+    for i in range(0,row):
+        for ii in range(0,col):
+            Profile_series_us[i][ii] = stoch_profiles_us[i][ii] 
+
+    return Profile_series_us
+
 def Profile_cloud_plot(stoch_profiles,stoch_profiles_avg):
     #x = np.arange(0,1440,5)
     plt.figure(figsize=(10,5))
@@ -68,6 +79,6 @@ def export_series(stoch_profiles_series, j):
     series_frame = pd.DataFrame(stoch_profiles_series)
     series_frame.to_csv('results/output_file_%d.csv' % (j))
 
-def export_series_us((stoch_profiles_series, j): #PIETRO: parallel function for exporting in csv the differentiated demand
+def export_series_us(stoch_profiles_series, j): #PIETRO: parallel function for exporting in csv the differentiated demand
     series_frame = pd.DataFrame(stoch_profiles_series)
     series_frame.to_csv('results/output_file_diff_%d.csv' % (j))

@@ -10,8 +10,8 @@ from initialise import Initialise_model, Initialise_inputs
 #%% Core model stochastic script
 
 def Stochastic_Process(j):
-    Profile, num_profiles, Profile_users = Initialise_model()
     peak_enlarg, mu_peak, s_peak, Year_behaviour, User_list = Initialise_inputs(j)
+    Profile, num_profiles, Profile_users = Initialise_model(len(User_list))
     '''
     Calculation of the peak time range, which is used to discriminate between off-peak and on-peak coincident switch-on probability
     Calculates first the overall Peak Window (taking into account all User classes). 
@@ -40,7 +40,7 @@ def Stochastic_Process(j):
     '''
     for prof_i in range(num_profiles): #the whole code is repeated for each profile that needs to be generated
         Tot_Classes = np.zeros(1440) #initialise an empty daily profile that will be filled with the sum of the hourly profiles of each User instance
-        dum = 0
+        k = 0
         for Us in User_list: #iterates for each User instance (i.e. for each user class)
             Us.load = np.zeros(1440) #initialise empty load for User instance
             for i in range(Us.num_users): #iterates for every single user within a User class. Each single user has its own separate randomisation
@@ -282,14 +282,20 @@ def Stochastic_Process(j):
                             else:
                                 continue #if the random switch_on falls somewhere where the App has been already turned on, tries again from beginning of the while cycle
                     Us.load = Us.load + App.daily_use #adds the App profile to the User load
-                Class_load[dum] = Us.load #PIETRO: save separately each class load
+            Profile_users[k] = Us.load
+            k += 1
             Tot_Classes = Tot_Classes + Us.load #adds the User load to the total load of all User classes
-            dum += 1
         Profile.append(Tot_Classes) #appends the total load to the list that will contain all the generated profiles
-        
-        for h in range(0,len(Class_load)+1): #PIETRO: creation of Profile_users
-            for k in range(0,len(Class_load[h])+1): 
-                Profile_users[h].append = Class_load[h][k] #appends the separated loads by profile
+            
         
         print('Profile',prof_i+1,'/',num_profiles,'completed') #screen update about progress of computation
     return(Profile,Profile_users) #PIETRO: add Profile_users to function output
+'''
+GENERAL ISSUES:
+how is the information structured?
+GENERAL ISSUES:
+how is the information structured?
+
+profile = seasons like
+daily_use = [24][1]
+'''
