@@ -4,6 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import math as mt
 
 #%% Post-processing
 '''
@@ -27,14 +28,17 @@ def Profile_formatting(stoch_profiles):
 
 def Profile_formatting_us(stoch_profiles_us):
     
-    row = len(stoch_profiles_us)
-    col = len(stoch_profiles_us[0])
-    Profile_series_us = np.empty([row+1,col+1])
+    row = len(stoch_profiles_us) #number of users
+    col = len(stoch_profiles_us[0]) #numbers of profiles
+    depth = len(stoch_profiles_us[0][0]) #number of periods
+    Profile_series_us = np.empty([row,depth*col])
     for i in range(0,row):
-        for ii in range(0,col):
-            Profile_series_us[i][ii] = stoch_profiles_us[i][ii] 
-
-    return Profile_series_us
+        for iii in range(0,depth*col):
+            ii = mt.floor(iii/depth)
+            k = iii - ii*depth
+            Profile_series_us[i][iii] = stoch_profiles_us[i][ii][k]
+    
+    return np.transpose(Profile_series_us)
 
 def Profile_cloud_plot(stoch_profiles,stoch_profiles_avg):
     #x = np.arange(0,1440,5)

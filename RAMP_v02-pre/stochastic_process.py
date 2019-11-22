@@ -282,11 +282,10 @@ def Stochastic_Process(j):
                             else:
                                 continue #if the random switch_on falls somewhere where the App has been already turned on, tries again from beginning of the while cycle
                     Us.load = Us.load + App.daily_use #adds the App profile to the User load
-            Profile_users[k] = Us.load
+            Profile_users[k].append(Us.load)
             k += 1
             Tot_Classes = Tot_Classes + Us.load #adds the User load to the total load of all User classes
-        Profile.append(Tot_Classes) #appends the total load to the list that will contain all the generated profiles
-            
+        Profile.append(Tot_Classes) #appends the total load to the list that will contain all the generated profiles   
         
         print('Profile',prof_i+1,'/',num_profiles,'completed') #screen update about progress of computation
     return(Profile,Profile_users) #PIETRO: add Profile_users to function output
