@@ -40,6 +40,24 @@ def Profile_formatting_us(stoch_profiles_us):
     
     return np.transpose(Profile_series_us)
 
+def Hourly_profile_us(min_profile_us):
+
+    users = len(min_profile_us[0])
+    minutes = len(min_profile_us)
+    hours = int(minutes/60)
+    Hour_profile = np.zeros([hours,users])
+
+    for us in range(0,users):
+        for h in range(0,hours):
+            temp = 0
+            for m in range(0,60):
+                mi = int(h*60 + m)
+                temp += min_profile_us[mi][us]
+            Hour_profile[h][us] = temp/60
+
+    return Hour_profile
+
+
 def Profile_cloud_plot(stoch_profiles,stoch_profiles_avg):
     #x = np.arange(0,1440,5)
     plt.figure(figsize=(10,5))
@@ -79,10 +97,10 @@ for i in range (len(Profile)):
 
 # Export Profiles
 
-def export_series(stoch_profiles_series, j):
+def export_series(stoch_profiles_series ,j):
     series_frame = pd.DataFrame(stoch_profiles_series)
     series_frame.to_csv('results/output_file_%d.csv' % (j))
 
-def export_series_us(stoch_profiles_series, j): #PIETRO: parallel function for exporting in csv the differentiated demand
+def export_series_us(stoch_profiles_series, string, j): #PIETRO: parallel function for exporting in csv the differentiated demand
     series_frame = pd.DataFrame(stoch_profiles_series)
-    series_frame.to_csv('results/output_file_diff_%d.csv' % (j))
+    series_frame.to_csv("results/" + string + "%d.csv" % (j))

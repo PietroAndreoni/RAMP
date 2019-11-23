@@ -36,10 +36,12 @@ for j in range(1,2):
 # Post-processes the results and generates plots
     Profiles_avg, Profiles_list_kW, Profiles_series = Profile_formatting(Profiles_list)
     Profiles_series_us = Profile_formatting_us(Profiles_list_us) # PIETRO
+    Profiles_series_hour = Hourly_profile_us(Profiles_series_us)
     Profile_series_plot(Profiles_series) #by default, profiles are plotted as a series
     
     export_series(Profiles_series,j)
-    export_series_us(Profiles_series_us,j) #PIETRO
+    export_series_us(Profiles_series_us,"minutes",j) #PIETRO
+    export_series_us(Profiles_series_hour,"hours",j)
 
     if len(Profiles_list) > 1: #if more than one daily profile is generated, also cloud plots are shown
         Profile_cloud_plot(Profiles_list, Profiles_avg)
