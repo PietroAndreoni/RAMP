@@ -104,3 +104,23 @@ def export_series(stoch_profiles_series ,j):
 def export_series_us(stoch_profiles_series, string, j): #PIETRO: parallel function for exporting in csv the differentiated demand
     series_frame = pd.DataFrame(stoch_profiles_series)
     series_frame.to_csv("results/" + string + "%d.csv" % (j))
+
+
+def make_seasonal_dataframe(dataframe_list,season_list,years,years_expansion):
+
+    number_seasons = len(season_list)
+    number_expansions = len(years_expansion)
+    check1 = sum(season_list)
+    check2 = number_seasons*number_expansions
+
+    row = 8760
+    col = years*(len(dataframe_list[0])+1)
+    complete = np.empty([row, col]) 
+
+    for i in range(0,row):
+        for j in range(0,col):
+            for k in range(1,number_seasons):
+                if season_list[k-1] <= i < season_list[k]:
+                    complete[i][j] = dataframe_list[k-1][i%24][j%years]
+
+    return complete
