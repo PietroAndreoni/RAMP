@@ -97,9 +97,13 @@ def Stochastic_Process(j):
                         Us.load = Us.load + App.daily_use
                         continue
                     else: #otherwise, for "non-flat" apps it puts a mask on the newly defined windows and continues    
-                        App.daily_use[rand_window_1[0]:rand_window_1[1]] = np.full(np.diff(rand_window_1),0.001)
-                        App.daily_use[rand_window_2[0]:rand_window_2[1]] = np.full(np.diff(rand_window_2),0.001)
-                        App.daily_use[rand_window_3[0]:rand_window_3[1]] = np.full(np.diff(rand_window_3),0.001)
+                        try:
+                            App.daily_use[rand_window_1[0]:rand_window_1[1]] = np.full(np.diff(rand_window_1),0.001)
+                            App.daily_use[rand_window_2[0]:rand_window_2[1]] = np.full(np.diff(rand_window_2),0.001)
+                            App.daily_use[rand_window_3[0]:rand_window_3[1]] = np.full(np.diff(rand_window_3),0.001)
+                        except:
+                            print('%s - %s' %(Us.user_name,App.number))
+                            break
                     App.daily_use_masked = np.zeros_like(ma.masked_not_equal(App.daily_use,0.001))
                   
                     App.power = App.POWER[prof_i]

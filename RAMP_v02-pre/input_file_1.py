@@ -54,31 +54,31 @@ User_list.append(Carpenter)
 #Create new appliances
 
 #Public lighting
-Pub_lights = Public_lighting.Appliance(Public_lighting,n=15,P=10,w=1,fixed='yes',flat='yes')
+Pub_lights = Public_lighting.Appliance(Public_lighting,n=15,P=30,w=1,fixed='yes',flat='yes') ###????
 Pub_lights.windows(w1=[1200,1440],w2=[0,360],r_w=0)
 
 #High-Income
 #Lights, security lights, phone charger, more than one TV, 
 # fan, fridge, hi-fi stereos, blender Health 
-HI_indoor_bulb = HI.Appliance(HI,6,5,2,180,0.3,15)
+HI_indoor_bulb = HI.Appliance(HI,n=6,P=5,w=2,t=180,r_t=0.3,c=15)
 HI_indoor_bulb.windows([1080,1320],[330,390],0.35)
 
-HI_outdoor_bulb = HI.Appliance(HI,2,10,2,flat='yes')
+HI_outdoor_bulb = HI.Appliance(HI,n=2,P=10,w=2,flat='yes')
 HI_outdoor_bulb.windows([1080,1440],[0,390],0.2)
 
 HI_TV = HI.Appliance(HI,2,50,1,120,0.3,15)
 HI_TV.windows([1080,1320],r_w=0.35)
 
-HI_Phone_charger = HI.Appliance(HI,4,8,2,120,0.15,30)
-HI_Phone_charger.windows([1080,1440],[0,330],0.6) #?
+HI_Phone_charger = HI.Appliance(HI,4,8,2,120,0.15,10)#? ch from 30 to 15
+HI_Phone_charger.windows([1080,1440],[0,330],0.1) #?
 
-HI_fan = HI.Appliance(HI,2,40,1,120,0.3,30,occasional_use=0.5)
-HI_fan.windows([600,1080],r_w=0.6)
+HI_fan = HI.Appliance(HI,2,40,1,120,0.3,20,occasional_use=0.5) #ch from 30 to 20
+HI_fan.windows([600,1080],r_w=0.3)
 
 HI_hifi = HI.Appliance(HI,1,60,2,90,0.5,15)
 HI_hifi.windows([660,780],[1080,1260],0.35)
 
-HI_Blender = HI.Appliance(HI,1,50,2,20,0.3,5,occasional_use = 0.33)
+HI_Blender = HI.Appliance(HI,1,50,2,20,0.3,3,occasional_use = 0.33) #ch from 5 to 3
 HI_Blender.windows([660,780],[1020,1140],0.1)
 
 HI_fridge = HI.Appliance(HI,1,140,1,flat='yes')
@@ -91,21 +91,21 @@ HMI_indoor_bulb.windows([1080,1320],[330,390],0.35)
 HMI_TV = HMI.Appliance(HMI,1,50,1,120,0.3,15)
 HMI_TV.windows([1080,1320],r_w=0.35)
 
-HMI_Phone_charger = HMI.Appliance(HMI,3,8,2,120,0.15,30)
-HMI_Phone_charger.windows([1080,1440],[0,330],0.6) #?
+HMI_Phone_charger = HMI.Appliance(HMI,3,8,2,120,0.15,10)
+HMI_Phone_charger.windows([1080,1440],[0,330],0.1) #?
 
-HMI_fan = HMI.Appliance(HMI,1,40,1,120,0.3,30,occasional_use=0.5)
-HMI_fan.windows([600,1080],r_w=0.6)
+HMI_fan = HMI.Appliance(HMI,1,40,1,120,0.3,20,occasional_use=0.5)
+HMI_fan.windows([600,1080],r_w=0.3)
 
 HMI_radio = HMI.Appliance(HMI,1,10,2,90,0.5,15)
-HMI_radio.windows([660,960],[1080,1320],0.5)
+HMI_radio.windows([660,960],[1080,1320],0.2)
 
 #Low Income
 LI_indoor_bulb = LI.Appliance(LI,3,5,2,180,0.3,15)
 LI_indoor_bulb.windows([1080,1320],[330,390],0.35)
 
-LI_Phone_charger = LI.Appliance(LI,2,8,2,120,0.15,30)
-LI_Phone_charger.windows([1080,1440],[0,330],0.6) #?
+LI_Phone_charger = LI.Appliance(LI,2,8,2,120,0.15,10)
+LI_Phone_charger.windows([1080,1440],[0,330],0.1) #?
 
 #Hospital
 Ho_indoor_bulb = Hospital.Appliance(Hospital,20,5,2,180,0.3,15)
@@ -117,7 +117,7 @@ Ho_outdoor_bulb.windows([1080,1440],[0,390],0.2)
 Ho_water_heater = Hospital.Appliance(Hospital,1,800,2,60,0.5,20)
 Ho_water_heater.windows([480,720],[870,1440],0)
 
-Ho_Sterilizer = Hospital.Appliance(Hospital,1,1500,2,60,0,20,occasional_use=0.5)
+Ho_Sterilizer = Hospital.Appliance(Hospital,n=1,P=1500,w=2,t=60,occasional_use=0.5)
 Ho_Sterilizer.windows([480,720],[870,1440],0)
 
 Ho_fridge = Hospital.Appliance(Hospital,1,200,1,flat='yes')
@@ -126,7 +126,7 @@ Ho_fridge.windows([0,1440],r_w=0)
 Ho_PC = Hospital.Appliance(Hospital,2,200,2,120,0.3,10)
 Ho_PC.windows([480,720],[870,1440],0)
 
-Ho_washing_mac = Hospital.Appliance(Hospital,1,500,2,180,0.2,occasional_use = 0.5)
+Ho_washing_mac = Hospital.Appliance(Hospital,1,500,2,180,0.2,60,occasional_use = 0.5)
 Ho_washing_mac.windows([480,720],[870,1440])
 
 #Tailor
