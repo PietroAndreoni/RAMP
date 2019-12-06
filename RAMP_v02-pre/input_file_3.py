@@ -5,16 +5,14 @@
 Input data definition 
 '''
 
-
-from core import User, np
+from core import User, np, pd
 User_list = []
 
+
 '''
-This example input file represents an whole village-scale community,
-adapted from the data used for the Journal publication. It should provide a 
-complete guidance to most of the possibilities ensured by RAMP for inputs definition,
-including specific modular duty cycles and cooking cycles. 
-For examples related to "thermal loads", see the "input_file_2".
+This example input file represents a single household user whose only load
+is the "shower". The example showcases how to model thermal loads by means of 
+the thermal_P_var attribute.
 '''
 
 #Create new user classes
@@ -55,25 +53,19 @@ User_list.append(Carpenter)
 
 #Public lighting
 Pub_lights = Public_lighting.Appliance(Public_lighting,n=100,P=50,w=1,fixed='yes',flat='yes') ###????
-Pub_lights.windows([1080,1440],[0,390],0)
+Pub_lights.windows([1200,1440],[0,360],0)
 
 #High-Income
 #Lights, security lights, phone charger, more than one TV, 
 # fan, fridge, hi-fi stereos, blender Health 
-HI_indoor_bulb = HI.Appliance(HI,n=8,P=7,w=1,t=180,r_t=0.3,c=15)
-HI_indoor_bulb.windows([1080,1320],r_w=0.2)
-
-HI_indoor_bulb2 = HI.Appliance(HI,6,7,1,30,0.2,3)
-HI_indoor_bulb2.windows([330,390],r_w=0.1)
+HI_indoor_bulb = HI.Appliance(HI,n=8,P=5,w=2,t=180,r_t=0.3,c=15)
+HI_indoor_bulb.windows([1080,1320],[330,390],0.2)
 
 HI_outdoor_bulb = HI.Appliance(HI,n=2,P=10,w=2,flat='yes')
 HI_outdoor_bulb.windows([1080,1440],[0,390],0.1)
 
-HI_TV = HI.Appliance(HI,2,80,1,120,0.3,15)
-HI_TV.windows([1080,1320],r_w=0.3)
-
-HI_TV2 = HI.Appliance(HI,2,80,1,60,0.2,5,occasional_use=0.5)
-HI_TV2.windows([720,900],r_w=0.1)
+HI_TV = HI.Appliance(HI,2,80,2,180,0.3,5)
+HI_TV.windows([720,900],[1080,1320],r_w=0.3)
 
 HI_Phone_charger = HI.Appliance(HI,4,8,2,120,0.15,10)#? ch from 30 to 15
 HI_Phone_charger.windows([1080,1440],[0,330],0.1) #?
@@ -95,17 +87,11 @@ HI_Freezer.specific_cycle_3(200,10,5,20)
 HI_Freezer.cycle_behaviour([480,1200],[0,0],[300,479],[0,0],[0,299],[1201,1440])
 
 #Higher-Middle Income
-HMI_indoor_bulb = HMI.Appliance(HMI,6,7,2,180,0.3,15)
-HMI_indoor_bulb.windows([1080,1320],r_w=0.2)
+HMI_indoor_bulb = HMI.Appliance(HMI,6,5,2,180,0.3,15)
+HMI_indoor_bulb.windows([1080,1320],[330,390],0.2)
 
-HMI_indoor_bulb2 = HMI.Appliance(HMI,4,7,2,30,0.2,3)
-HMI_indoor_bulb2.windows([330,390],r_w=0.1)
-
-HMI_TV = HMI.Appliance(HMI,1,50,1,120,0.3,15)
-HMI_TV.windows([1080,1320],r_w=0.3)
-
-HMI_TV2 = HMI.Appliance(HMI,2,50,1,60,0.2,5,occasional_use=0.5)
-HMI_TV2.windows([720,900],r_w=0.1)
+HMI_TV = HMI.Appliance(HMI,1,80,2,180,0.3,5)
+HMI_TV.windows([720,900],[1080,1320],r_w=0.3)
 
 HMI_Phone_charger = HMI.Appliance(HMI,3,8,2,120,0.15,10)
 HMI_Phone_charger.windows([1080,1440],[0,330],0.1) #?
@@ -117,11 +103,8 @@ HMI_radio = HMI.Appliance(HMI,1,10,2,90,0.5,15)
 HMI_radio.windows([660,960],[1080,1320],0.3)
 
 #Low Income
-LI_indoor_bulb = LI.Appliance(LI,3,7,2,180,0.3,15)
+LI_indoor_bulb = LI.Appliance(LI,3,5,2,180,0.3,15)
 LI_indoor_bulb.windows([1080,1320],[330,390],0.2)
-
-LI_indoor_bulb2 = LI.Appliance(LI,4,7,2,30,0.2,3)
-LI_indoor_bulb2.windows([330,390],r_w=0.1)
 
 LI_Phone_charger = LI.Appliance(LI,2,8,2,120,0.15,10)
 LI_Phone_charger.windows([1080,1440],[0,330],0.1) #?
@@ -202,6 +185,3 @@ S_outdoor_bulb.windows([1080,1440],r_w=0.1)
 
 S_PC = School.Appliance(School,3,150,2,210,0.1,10)
 S_PC.windows([510,750],[810,1080],0.1)
-
-
-
