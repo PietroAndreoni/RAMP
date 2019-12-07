@@ -36,31 +36,37 @@ avgs = []
 lists = []
 control = 'avg' #avg for average hourly load (optimistic), var for adding variance 
 us_call = int(input("please indicate the number of indipendent days you wanna generate for each input profile. Thanks bro!\n"))
-scenario = input("please indicate the scenario you wanna run: baseline, income_growth, business_growth:\n")
-print("Please wait")
-
-for j in range(1,5):
-    (Profiles_list,Profiles_list_us) = Stochastic_Process(j,us_call,scenario)  #PIETRO
-    lists.append(Profiles_list)
-# Post-processes the results and generates plots
-    Profiles_avg, Profiles_list_kW, Profiles_series = Profile_formatting(Profiles_list)
-    avgs.append(Profiles_avg)
-    Profiles_series_us = Profile_formatting_us(Profiles_list_us) # PIETRO
-    Profiles_series_hour = Hourly_profile_us(Profiles_series_us,control) 
-    Profile_series_plot(Profiles_series) #by default, profiles are plotted as a series
-    tot_list.append(Profiles_series_hour)
+control1 = input("you wanna run all scenarios?(y/n)\n")
+if control1 == 'n'
+    scenario = input("please indicate the scenario you wanna run: baseline, income_growth, business_growth:\n")
+    scenarios = [scenario]
+elif control1 == 'y'    
+    scenarios = ['baseline', 'income_growth', 'business_growth'] 
     
-    export_series(Profiles_series,j)
-    export_series_us(Profiles_series_us,"minutes",j) #PIETRO
-    export_series_us(Profiles_series_hour,"hours",j)
 
-    if len(Profiles_list) > 1: #if more than one daily profile is generated, also cloud plots are shown
-        Profile_cloud_plot(Profiles_list, Profiles_avg)
+for scenario in scenarios:
+    for j in range(1,5):
+        (Profiles_list,Profiles_list_us) = Stochastic_Process(j,us_call,scenario)  #PIETRO
+        lists.append(Profiles_list)
+        # Post-processes the results and generates plots
+        Profiles_avg, Profiles_list_kW, Profiles_series = Profile_formatting(Profiles_list)
+        avgs.append(Profiles_avg)
+        Profiles_series_us = Profile_formatting_us(Profiles_list_us) # PIETRO
+        Profiles_series_hour = Hourly_profile_us(Profiles_series_us,control) 
+        Profile_series_plot(Profiles_series) #by default, profiles are plotted as a series
+        tot_list.append(Profiles_series_hour)
         
-    print("profile %s is complete" %(j))
-
-if len(Profiles_list) > 1: #if more than one daily profile is generated, also cloud plots are shown
-    Profile_cloud_tot(lists, avgs)
+        export_series(Profiles_series,j)
+        export_series_us(Profiles_series_us,"minutes",j) #PIETRO
+        export_series_us(Profiles_series_hour,"hours",j)
+        
+        if len(Profiles_list) > 1: #if more than one daily profile is generated, also cloud plots are shown
+            Profile_cloud_plot(Profiles_list, Profiles_avg)
+            
+        print("profile %s is complete" %(j))
+        
+        if len(Profiles_list) > 1: #if more than one daily profile is generated, also cloud plots are shown
+        Profile_cloud_tot(lists, avgs)
 
 '''
 #WIP

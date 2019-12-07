@@ -151,6 +151,7 @@ Ho_PC.windows([480,780],[870,1440],0)
 
 Ho_washing_mac = Hospital.Appliance(Hospital,1,500,2,180,0.2,60,occasional_use = 0.5)
 Ho_washing_mac.windows([480,780],[870,1440],0)
+Ho_washing_mac.cycle_behaviour([600,780],[900,1080])
 
 #Tailor
 Ta_indoor_bulb = Tailor.Appliance(Tailor,6,10,2,300,0.3,60,wd_we_type = 0)
