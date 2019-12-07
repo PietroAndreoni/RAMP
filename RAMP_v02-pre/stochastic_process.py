@@ -11,7 +11,8 @@ from initialise import Initialise_model, Initialise_inputs
 
 def Stochastic_Process(j):
     peak_enlarg, mu_peak, s_peak, Year_behaviour, User_list = Initialise_inputs(j)
-    Profile, num_profiles, Profile_users = Initialise_model(len(User_list))
+    Profile, Profile_users = Initialise_model(len(User_list))
+    num_profiles = us_call
     '''
     Calculation of the peak time range, which is used to discriminate between off-peak and on-peak coincident switch-on probability
     Calculates first the overall Peak Window (taking into account all User classes). 
