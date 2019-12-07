@@ -31,7 +31,7 @@ from post_process import*
 # but single or multiple files can be run restricting or enlarging the iteration range 
 # and naming further input files with progressive numbering
 tot_list = []
-for j in range(1,2):
+for j in range(1,5):
     (Profiles_list,Profiles_list_us) = Stochastic_Process(j)  #PIETRO
     
 # Post-processes the results and generates plots
