@@ -26,7 +26,8 @@ def Initialise_model(number_users):
 
     return (Profile, Profile_users)
     
-def Initialise_inputs(j):
+def Initialise_inputs(j,scenario):
+
     Year_behaviour = yearly_pattern()
     user_list = getattr((importlib.import_module('input_file_%s_%d' %(scenario,j))), 'User_list')   
     

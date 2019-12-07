@@ -30,23 +30,23 @@ from post_process import*
 # In this default example, the model runs for 2 input files ("input_file_1", "input_file_2"),
 # but single or multiple files can be run restricting or enlarging the iteration range 
 # and naming further input files with progressive numbering
-global us_call, scenario
 
 tot_list = []
 avgs = []
 lists = []
-us_call = int(input("please indicate the number of indipendent days you wanna generate for each input profile. Thanks bro! "))
-scenario = input("please indicate the scenario you wanna run: baseline, income_growth, business_growth")
+control = 'avg' #avg for average hourly load (optimistic), var for adding variance 
+us_call = int(input("please indicate the number of indipendent days you wanna generate for each input profile. Thanks bro!\n"))
+scenario = input("please indicate the scenario you wanna run: baseline, income_growth, business_growth:\n")
 print("Please wait")
 
 for j in range(1,5):
-    (Profiles_list,Profiles_list_us) = Stochastic_Process(j)  #PIETRO
+    (Profiles_list,Profiles_list_us) = Stochastic_Process(j,us_call,scenario)  #PIETRO
     lists.append(Profiles_list)
 # Post-processes the results and generates plots
     Profiles_avg, Profiles_list_kW, Profiles_series = Profile_formatting(Profiles_list)
     avgs.append(Profiles_avg)
     Profiles_series_us = Profile_formatting_us(Profiles_list_us) # PIETRO
-    Profiles_series_hour = Hourly_profile_us(Profiles_series_us,'avg') #avg for average hourly load (optimistic), var for adding variance 
+    Profiles_series_hour = Hourly_profile_us(Profiles_series_us,control) 
     Profile_series_plot(Profiles_series) #by default, profiles are plotted as a series
     tot_list.append(Profiles_series_hour)
     

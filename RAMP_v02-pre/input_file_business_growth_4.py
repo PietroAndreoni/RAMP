@@ -18,13 +18,13 @@ For examples related to "thermal loads", see the "input_file_2".
 '''
 
 #Create new user classes
-HI = User("high income",140,3)
+HI = User("high income",230,3)
 User_list.append(HI)
 
-HMI = User("higher middle income",448,3)
+HMI = User("higher middle income",520,3)
 User_list.append(HMI)
 
-LI = User("low income",322,3)
+LI = User("low income",160,3)
 User_list.append(LI)
 
 Hospital = User("hospital",2)
@@ -36,7 +36,7 @@ User_list.append(School)
 Public_lighting = User("public lighting",1)
 User_list.append(Public_lighting)
 
-Bar = User("bar",2)
+Bar = User("bar",3)
 User_list.append(Bar)
 
 Tailor = User("tailor",1)
@@ -48,10 +48,26 @@ User_list.append(Garage)
 Pumps = User("pumps",2)
 User_list.append(Pumps)
 
-Carpenter = User("carpenter",1)
+Carpenter = User("carpenter",2)
 User_list.append(Carpenter)
 
-#Create new appliances
+#New businesses
+Laundry = User("laundry",1)
+User_list.append(Laundry)
+
+Internet_point = User("internet point",1)
+User_list.append(Internet_point)
+
+Grocery_store = User("grociery store",2)
+User_list.append(Grocery_store)
+
+Haircutter = User("haircutter",2)
+User_list.append(Haircutter)
+
+Generic_business = User("generic business",4)
+User_list.append(Generic_business)
+
+#create new appliances
 
 #Public lighting
 Pub_lights = Public_lighting.Appliance(Public_lighting,n=130,P=50,w=1,fixed='yes',flat='yes') ###????
@@ -206,3 +222,52 @@ S_outdoor_bulb.windows([1080,1440],[0,390],r_w=0.1)
 
 S_PC = School.Appliance(School,3,150,2,210,0.1,10)
 S_PC.windows([510,750],[810,1080],0.1)
+
+
+#Laundry
+La_indoor_bulb = Laundry.Appliance(Laundry,8,7,2,300,0.3,60,wd_we_type = 0)
+La_indoor_bulb.windows([600,780],[900,1080],0.1)
+
+La_washing_mac = Laundry.Appliance(Laundry,3,500,2,120,0.5,60,fixed_cycle=1,wd_we_type = 0)
+La_washing_mac.windows([600,780],[900,1080],0.1)
+La_washing_mac.specific_cycle_1(2000,10,10,50)
+
+La_iron = Laundry.Appliance(Laundry,4,2000,2,40,0.2,1,wd_we_type = 0)
+La_iron.windows([600,780],[900,1080],0.1)
+
+#Internet point
+Ip_indoor_bulb = Internet_point.Appliance(Internet_point,8,7,2,300,0.3,60,wd_we_type = 0)
+Ip_indoor_bulb.windows([600,780],[900,1080],0.1)
+
+Ip_PC = Internet_point.Appliance(Internet_point,6,200,2,120,0.3,10,wd_we_type = 0)
+Ip_PC.windows([600,780],[900,1080],0.1)
+
+#Hair cutter
+Hc_indoor_bulb = Haircutter.Appliance(Haircutter,6,7,2,300,0.3,60,wd_we_type = 0)
+Hc_indoor_bulb.windows([600,780],[900,1080],0.1)
+
+Hc_hairdryer = Haircutter.Appliance(Haircutter,2,1500,2,90,0.2,2,wd_we_type = 0)
+Hc_hairdryer.windows([600,780],[900,1080],0.1)
+
+#Grocery
+Gr_indoor_bulb = Grocery_store.Appliance(Grocery_store,7,7,2,300,0.3,60,wd_we_type = 0)
+Gr_indoor_bulb.windows([600,780],[900,1080],0.1)
+
+Gr_Freezer = Grocery_store.Appliance(Grocery_store,1,140,1,1440,0,30,'yes',3)
+Gr_Freezer.windows([0,1440],[0,0])
+Gr_Freezer.specific_cycle_1(200,20,5,10)
+Gr_Freezer.specific_cycle_2(200,15,5,15)
+Gr_Freezer.specific_cycle_3(200,10,5,20)
+Gr_Freezer.cycle_behaviour([480,1200],[0,0],[300,479],[0,0],[0,299],[1201,1440])
+
+#Generic business
+Ge_indoor_bulb = Generic_business.Appliance(Generic_business,6,7,2,300,0.3,60,wd_we_type = 0)
+Ge_indoor_bulb.windows([600,780],[900,1080],0.1)
+
+Ge_appliance = Generic_business.Appliance(Generic_business,2,500,2,120,0.5,1,thermal_P_var=0.5,wd_we_type = 0,occasional_use=0.5)
+Ge_appliance.windows([600,780],[900,1080],0.1)
+
+
+
+
+

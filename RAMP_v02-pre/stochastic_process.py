@@ -9,8 +9,8 @@ from initialise import Initialise_model, Initialise_inputs
 
 #%% Core model stochastic script
 
-def Stochastic_Process(j):
-    peak_enlarg, mu_peak, s_peak, Year_behaviour, User_list = Initialise_inputs(j)
+def Stochastic_Process(j,us_call, scenario): 
+    peak_enlarg, mu_peak, s_peak, Year_behaviour, User_list = Initialise_inputs(j,scenario)
     Profile, Profile_users = Initialise_model(len(User_list))
     num_profiles = us_call
     '''

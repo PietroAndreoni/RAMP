@@ -41,27 +41,26 @@ def Profile_formatting_us(stoch_profiles_us):
     return np.transpose(Profile_series_us)
 
 def Hourly_profile_us(min_profile_us,control):
-
     users = len(min_profile_us[0])
     minutes = len(min_profile_us)
     hours = int(minutes/60)
     Hour_profile = np.zeros([hours,users])
-    
-        for us in range(0,users):
-            for h in range(0,hours):
-                temp = 0
-                var = 0
+
+    for us in range(0,users):
+        for h in range(0,hours):
+            temp = 0
+            var = 0
+            for m in range(0,60):
+                mi = int(h*60 + m)
+                temp += min_profile_us[mi][us]
+            if control == 'avg':
+                Hour_profile[h][us] = temp/60
+            elif control == 'var':
                 for m in range(0,60):
                     mi = int(h*60 + m)
-                    temp += min_profile_us[mi][us]
-                if control == 'avg'
-                    Hour_profile[h][us] = temp/60
-                elif control == 'var'
-                    for m in range(0,60):
-                        mi = int(h*60 + m)
-                        var += (min_profile_us[mi][us] - temp/60)^2
-                    Hour_profile[h][us] = temp/60 + mt.sqrt(var/60)                       
-        
+                    var += (min_profile_us[mi][us] - temp/60)^2
+                Hour_profile[h][us] = temp/60 + mt.sqrt(var/60)                       
+    
 
     return Hour_profile
 

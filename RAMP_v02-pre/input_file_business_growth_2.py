@@ -52,6 +52,17 @@ Carpenter = User("carpenter",1)
 User_list.append(Carpenter)
 
 #Create new appliances
+Internet_point = User("internet point",1)
+User_list.append(Internet_point)
+
+Grocery_store = User("grociery store",1)
+User_list.append(Grocery_store)
+
+Haircutter = User("haircutter",1)
+User_list.append(Haircutter)
+
+Generic_business = User("generic business",1)
+User_list.append(Generic_business)
 
 #Public lighting
 Pub_lights = Public_lighting.Appliance(Public_lighting,n=100,P=50,w=1,fixed='yes',flat='yes') ###????
@@ -207,5 +218,36 @@ S_outdoor_bulb.windows([1080,1440],[0,390],r_w=0.1)
 S_PC = School.Appliance(School,3,150,2,210,0.1,10)
 S_PC.windows([510,750],[810,1080],0.1)
 
+#Internet point
+Ip_indoor_bulb = Internet_point.Appliance(Internet_point,8,7,2,300,0.3,60,wd_we_type = 0)
+Ip_indoor_bulb.windows([600,780],[900,1080],0.1)
+
+Ip_PC = Internet_point.Appliance(Internet_point,6,200,2,120,0.3,10,wd_we_type = 0)
+Ip_PC.windows([600,780],[900,1080],0.1)
+
+#Hair cutter
+Hc_indoor_bulb = Haircutter.Appliance(Haircutter,6,7,2,300,0.3,60,wd_we_type = 0)
+Hc_indoor_bulb.windows([600,780],[900,1080],0.1)
+
+Hc_hairdryer = Haircutter.Appliance(Haircutter,2,1500,2,90,0.2,2,wd_we_type = 0)
+Hc_hairdryer.windows([600,780],[900,1080],0.1)
+
+#Grocery
+Gr_indoor_bulb = Grocery_store.Appliance(Grocery_store,7,7,2,300,0.3,60,wd_we_type = 0)
+Gr_indoor_bulb.windows([600,780],[900,1080],0.1)
+
+Gr_Freezer = Grocery_store.Appliance(Grocery_store,1,140,1,1440,0,30,'yes',3)
+Gr_Freezer.windows([0,1440],[0,0])
+Gr_Freezer.specific_cycle_1(200,20,5,10)
+Gr_Freezer.specific_cycle_2(200,15,5,15)
+Gr_Freezer.specific_cycle_3(200,10,5,20)
+Gr_Freezer.cycle_behaviour([480,1200],[0,0],[300,479],[0,0],[0,299],[1201,1440])
+
+#Generic business
+Ge_indoor_bulb = Generic_business.Appliance(Generic_business,6,7,2,300,0.3,60,wd_we_type = 0)
+Ge_indoor_bulb.windows([600,780],[900,1080],0.1)
+
+Ge_appliance = Generic_business.Appliance(Generic_business,2,500,2,120,0.5,1,thermal_P_var=0.5,wd_we_type = 0,occasional_use=0.5)
+Ge_appliance.windows([600,780],[900,1080],0.1)
 
 
