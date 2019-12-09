@@ -83,4 +83,7 @@ for scenario in scenarios:
     sc += 1
     
 #generating complete Demand file
-C_dem = complete_demand(len(scenarios),20,[2,8,14],n_input,tot_list)
+C_dem = complete_demand(len(scenarios),20,[2,7,14],n_input,tot_list) #require as input list of the years (extremes excluded) corrisponding to the steps. 
+                                                                     #The lenght of the list must be of same size of n_inputs-1. No control so don't mess it up
+                                                                
+print("Ok, we're done here. Thanks and come back soon!")                                                                     

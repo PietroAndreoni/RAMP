@@ -54,15 +54,15 @@ def Hourly_profile_us(min_profile_us,control):
             var = 0
             for m in range(0,60):
                 mi = int(h*60 + m)
-                temp += min_profile_us[mi][us]
+                temp += min_profile_us[mi,us]
             if control == 'avg':
-                Hour_profile_us[h][us] = temp/60
+                Hour_profile_us[h,us] = temp/60
             elif control == 'var':
                 for m in range(0,60):
                     mi = int(h*60 + m)
-                    var += (min_profile_us[mi][us] - temp/60)^2
-                Hour_profile_us[h][us] = temp/60 + mt.sqrt(var/60)                       
-        Hour_profile[h] += Hour_profile_us[h][us]
+                    var += (min_profile_us[mi,us] - temp/60)^2
+                Hour_profile_us[h,us] = temp/60 + mt.sqrt(var/60)                       
+            Hour_profile[h] += Hour_profile_us[h,us]
 
     return Hour_profile_us, Hour_profile
 
@@ -141,33 +141,19 @@ def export_series_us(stoch_profiles_series, string, j): #PIETRO: parallel functi
 def complete_demand(scen,years,steps,n_input,tot_list):
     Final_demand = np.zeros([8760,scen*years])
     ind_h = len(tot_list[0])
+    steps.insert(0,0)
+    steps.append(years+1)
+    st = len(steps)
     
     for sc in range(0,scen):
         for y in range(0,years):
-
-            if y<steps[0]:
-                for i in range(0,int(np.floor(8760/ind_h))):
-                    Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + 0][:]
-                if (i+1)*ind_h < (8760-1):
-                    Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + 0][:8760-(i+1)*ind_h ]
-
-            elif steps[0]<=y<steps[1]:
-                for i in range(0,int(np.floor(8760/ind_h))):
-                    Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + 1][:]
-                if (i+1)*ind_h < (8760-1):
-                    Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + 1][:8760-(i+1)*ind_h ]
-
-            elif steps[1]<=y<steps[2]:
-                for i in range(0,int(np.floor(8760/ind_h))):
-                    Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + 2][:]
-                if (i+1)*ind_h < (8760-1):
-                    Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + 2][:8760-(i+1)*ind_h ]
-
-            elif y>=steps[2]:
-                for i in range(0,int(np.floor(8760/ind_h))):
-                    Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + 3][:]
-                if (i+1)*ind_h < (8760-1):
-                    Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + 3][:8760-(i+1)*ind_h ]
+            for j in range(0,st-1):
+                
+                if steps[j]<= y <steps[j+1]:
+                    for i in range(0,int(np.floor(8760/ind_h))):
+                        Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + j][:]
+                    if (i+1)*ind_h < (8760-1):
+                        Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + j][:8760-(i+1)*ind_h ]
 
     series_frame = pd.DataFrame(Final_demand)
     series_frame.to_csv("Demand.csv")

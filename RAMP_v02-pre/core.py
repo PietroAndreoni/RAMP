@@ -16,11 +16,12 @@ created to define windows of use and, if needed, specific duty cycles
 #Define the outer python class that represents 'User classes'
 class User():
     
-    def __init__(self, name = "", n_users = 1, us_pref = 0):
+    def __init__(self, name = "", n_users = 1, us_pref = 0, us_type=0):
         self.user_name = name
         self.num_users = n_users #specifies the number of users within the class
         self.user_preference = us_pref #allows to check if random number coincides with user preference, to distinguish between various appliance_use options (e.g. different cooking options)
         self.App_list = [] #each instance of User (i.e. each user class) has its own list of Appliances
+        self.User_type = us_type #0 for households, 1 for commercial appliances, 2 for public appliances
 
 #Define the inner class for modelling user's appliances within the correspoding user class
     class Appliance():
