@@ -6,7 +6,8 @@ import numpy as np
 import pandas as pd
 import math as mt
 
-#%% Post-processing
+#%% Post-processing 
+
 '''
 Just some additional code lines to calculate useful indicators and generate plots
 '''
@@ -44,7 +45,8 @@ def Hourly_profile_us(min_profile_us,control):
     users = len(min_profile_us[0])
     minutes = len(min_profile_us)
     hours = int(minutes/60)
-    Hour_profile = np.zeros([hours,users])
+    Hour_profile_us = np.zeros([hours,users])
+    Hour_profile = np.zeros([hours])
 
     for us in range(0,users):
         for h in range(0,hours):
@@ -54,15 +56,15 @@ def Hourly_profile_us(min_profile_us,control):
                 mi = int(h*60 + m)
                 temp += min_profile_us[mi][us]
             if control == 'avg':
-                Hour_profile[h][us] = temp/60
+                Hour_profile_us[h][us] = temp/60
             elif control == 'var':
                 for m in range(0,60):
                     mi = int(h*60 + m)
                     var += (min_profile_us[mi][us] - temp/60)^2
-                Hour_profile[h][us] = temp/60 + mt.sqrt(var/60)                       
-    
+                Hour_profile_us[h][us] = temp/60 + mt.sqrt(var/60)                       
+        Hour_profile[h] += Hour_profile_us[h][us]
 
-    return Hour_profile
+    return Hour_profile_us, Hour_profile
 
 
 def Profile_cloud_plot(stoch_profiles,stoch_profiles_avg):
@@ -134,26 +136,40 @@ def export_series(stoch_profiles_series ,j):
 
 def export_series_us(stoch_profiles_series, string, j): #PIETRO: parallel function for exporting in csv the differentiated demand
     series_frame = pd.DataFrame(stoch_profiles_series)
-    series_frame.to_csv("results/%s%d.csv" %(string,j))
+    series_frame.to_csv("results/%s_%d.csv" %(string,j))
 
+def complete_demand(scen,years,steps,n_input,tot_list):
+    Final_demand = np.zeros([8760,scen*years])
+    ind_h = len(tot_list[0])
+    
+    for sc in range(0,scen):
+        for y in range(0,years):
 
-def make_seasonal_dataframe(dataframe_list,season_list,years,years_expansion):
+            if y<steps[0]:
+                for i in range(0,int(np.floor(8760/ind_h))):
+                    Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + 0][:]
+                if (i+1)*ind_h < (8760-1):
+                    Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + 0][:8760-(i+1)*ind_h ]
 
-    number_seasons = len(season_list)
-    number_expansions = len(years_expansion)
-    check1 = sum(season_list)
-    check2 = number_seasons*number_expansions
+            elif steps[0]<=y<steps[1]:
+                for i in range(0,int(np.floor(8760/ind_h))):
+                    Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + 1][:]
+                if (i+1)*ind_h < (8760-1):
+                    Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + 1][:8760-(i+1)*ind_h ]
 
-    row = 8760
-    col = years*(len(dataframe_list[0])+1)
-    complete = np.empty([row, col]) 
+            elif steps[1]<=y<steps[2]:
+                for i in range(0,int(np.floor(8760/ind_h))):
+                    Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + 2][:]
+                if (i+1)*ind_h < (8760-1):
+                    Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + 2][:8760-(i+1)*ind_h ]
 
-    for i in range(0,row):
-        for j in range(0,col):
-            for k in range(1,number_seasons):
-                if season_list[k-1] <= i < season_list[k]:
-                    complete[i][j] = dataframe_list[k-1][i%24][j%years]
+            elif y>=steps[2]:
+                for i in range(0,int(np.floor(8760/ind_h))):
+                    Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + 3][:]
+                if (i+1)*ind_h < (8760-1):
+                    Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + 3][:8760-(i+1)*ind_h ]
 
-    return complete
-
-#def create_excel()
+    series_frame = pd.DataFrame(Final_demand)
+    series_frame.to_csv("Demand.csv")
+           
+    return Final_demand
