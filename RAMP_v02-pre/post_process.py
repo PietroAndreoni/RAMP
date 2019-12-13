@@ -60,7 +60,7 @@ def Hourly_profile_us(min_profile_us,control):
             elif control == 'var':
                 for m in range(0,60):
                     mi = int(h*60 + m)
-                    var += (min_profile_us[mi,us] - temp/60)^2
+                    var += (min_profile_us[mi,us] - temp/60)**2
                 Hour_profile_us[h,us] = temp/60 + mt.sqrt(var/60)                       
             Hour_profile[h] += Hour_profile_us[h,us]
 
