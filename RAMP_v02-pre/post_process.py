@@ -141,16 +141,20 @@ def export_series_us(stoch_profiles_series, string, j): #PIETRO: parallel functi
 def complete_demand(scen,years,steps,n_input,tot_list):
     Final_demand = np.zeros([8760,scen*years])
     ind_h = len(tot_list[0])
+    if len(steps) != n_input-1:
+        print("steps are uncorrect! they have to be of size n_input-1")
+        return
     steps.insert(0,0)
     steps.append(years+1)
     st = len(steps)
-    
+    delta_t = int(np.floor(8760/ind_h))
+     
     for sc in range(0,scen):
         for y in range(0,years):
             for j in range(0,st-1):
                 
                 if steps[j]<= y <steps[j+1]:
-                    for i in range(0,int(np.floor(8760/ind_h))):
+                    for i in range(0,delta_t):
                         Final_demand[i*ind_h:(i+1)*ind_h,sc*years+y] = tot_list[sc*n_input + j][:]
                     if (i+1)*ind_h < (8760-1):
                         Final_demand[(i+1)*ind_h:,sc*years+y] = tot_list[sc*n_input + j][:8760-(i+1)*ind_h ]

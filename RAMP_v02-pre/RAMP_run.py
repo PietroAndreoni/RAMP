@@ -24,7 +24,7 @@ under the License.
 #%% Import required modules
 
 from stochastic_process import Stochastic_Process
-from post_process import*
+from post_process import *
 
 # Calls the stochastic process and saves the result in a list of stochastic profiles
 # In this default example, the model runs for 2 input files ("input_file_1", "input_file_2"),
